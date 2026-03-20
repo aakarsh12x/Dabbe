@@ -2,6 +2,8 @@
 
 Building a swiggy/zomato for monthly tiffin services
 
+This is Phase 1 prototype
+
 A full-stack tiffin subscription platform with:
 
 - `backend`: Node.js + Express + Prisma + PostgreSQL REST API

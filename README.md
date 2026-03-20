@@ -1,5 +1,7 @@
 # Tiffin Delivery Management System
 
+Building a swiggy/zomato for monthly tiffin services
+
 A full-stack tiffin subscription platform with:
 
 - `backend`: Node.js + Express + Prisma + PostgreSQL REST API

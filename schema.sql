@@ -1,0 +1,41 @@
+CREATE TYPE role AS ENUM ('USER', 'ADMIN');
+CREATE TYPE meal_type AS ENUM ('VEG', 'NON_VEG');
+CREATE TYPE subscription_status AS ENUM ('ACTIVE', 'PAUSED', 'CANCELLED', 'EXPIRED');
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(160) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role role NOT NULL DEFAULT 'USER',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tiffin_services (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(180) NOT NULL,
+  description TEXT NOT NULL,
+  price_monthly NUMERIC(10, 2) NOT NULL,
+  rating NUMERIC(2, 1) NOT NULL DEFAULT 4.5,
+  veg_or_nonveg meal_type NOT NULL,
+  location VARCHAR(180) NOT NULL,
+  image_url TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE subscriptions (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  service_id INTEGER NOT NULL REFERENCES tiffin_services(id) ON DELETE CASCADE,
+  start_date TIMESTAMP NOT NULL,
+  end_date TIMESTAMP NOT NULL,
+  status subscription_status NOT NULL DEFAULT 'ACTIVE',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE menus (
+  id SERIAL PRIMARY KEY,
+  service_id INTEGER NOT NULL REFERENCES tiffin_services(id) ON DELETE CASCADE,
+  day VARCHAR(20) NOT NULL,
+  meal_description TEXT NOT NULL
+);

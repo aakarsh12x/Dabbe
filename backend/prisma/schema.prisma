@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  password      String
+  role          String         @default("USER")
+  createdAt     DateTime       @default(now())
+  subscriptions Subscription[]
+}
+
+model TiffinService {
+  id            Int            @id @default(autoincrement())
+  name          String
+  description   String
+  priceMonthly  Float
+  rating        Float          @default(4.5)
+  vegOrNonVeg   String
+  location      String
+  imageUrl      String?
+  createdAt     DateTime       @default(now())
+  menus         Menu[]
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id         Int                @id @default(autoincrement())
+  userId     Int
+  serviceId  Int
+  startDate  DateTime
+  endDate    DateTime
+  status     String             @default("ACTIVE")
+  createdAt  DateTime           @default(now())
+  service    TiffinService      @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Menu {
+  id              Int           @id @default(autoincrement())
+  serviceId       Int
+  day             String
+  mealDescription String
+  service         TiffinService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}

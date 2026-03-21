@@ -1,4 +1,4 @@
-# Tiffin Delivery Management System
+# Tiffin Delivery Management System(Android App + Admin Dashboard)
 
 Building a swiggy/zomato for monthly tiffin services
 
